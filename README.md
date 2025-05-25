@@ -1,74 +1,64 @@
-# Redis Chatbot
+# Redis Chat CLI
 
-Cathy is an interactive command-line chatbot that leverages Redis for its backend operations. Users can perform a variety of tasks like joining channels, sending messages, listening to messages, retrieving random facts (possibly about birds), checking weather forecasts with wttr.in (created by @igor_chubin) and more.
+🚧 **UNDER DEVELOPMENT** 🚧  
+
+This project is in an early, experimental state.  
+
+By cloning or running this code, **you assume all risk**:  
+- **No guarantee** of stability, security, or data integrity
+- **APIs, commands, configuration, and file formats** may change without notice
+- **No warranty**—use at your own discretion, and please back up any data before testing  
+
+Just be aware that things may break!
 
 ## Features
 
-- **User Identification:** Register yourself with name, age, and location.
+- **User Registration:** Register your user.
 - **Channel Operations:** Join, leave, send messages to, and listen to channels.
 - **Direct Messaging:** Send direct messages to specific users.
-- **Weather Forecast:** Get a weather forecast for a selected city using the wttr.in service as developed by @igor_chubin.
-- **Random Facts:** Retrieve random facts.
 - **Help:** List all available commands with their brief descriptions.
 
 ## Prerequisites
 
 - Python 3
+- Docker Desktop
 
 ## How to Run
 
 Download the project repo onto your local device. 
 
-If you have docker installed, you may run the following to spin up the app's docker container: 
+If you have docker installed, you may run the following to spin up the app's docker container and then enter the running container:
 
 ```bash
-docker-compose up
+docker compose up --build -d            # spin up container
+docker exec -it chatbot-python bash     # enter app container
 ```
 
-To run the app, execute the following in your command line in the same working directory as the rest of the project repo: 
+To run the app, execute the following in the chatbot-python container's command line: 
 
 ```bash
-python redis_chat_app.py
+python -m chat.cli_adapter
 ```
 
-4. Interact with Cathy using the displayed command options.
+4. Interact on the app
 
 ## Usage
 
 After launching the chatbot, you'll be greeted with a list of command options. You can:
 
-- Identify yourself with the `identify` command.
-- Join chat channels with the `join` command.
-- Send messages to channels with the `send` command.
+- Identify yourself with `self_identify`; you'll be prompted for your name, age, and location.
+- Join chat channels with `join`; provide channel name(s) when prompted.
+- Send messages to channels with `say`; provide the target channel, your name and a message to send.
 - ... and more! Use the `!help` command for a complete list of available actions.
 
 ## Developer Notes
-
-- The chatbot uses a sample `db.json` for random facts data.
-- Data persistence and user messages are managed by Redis. Ensure your Redis server configurations are correct in the script (default is `host='redis', port=6379`).
-- The chatbot uses the `pubsub` feature of Redis for channels and messaging.
+- Data persistence and user messages are managed by Redis. Ensure your Redis server configurations are correct in the config file.
+  
+### Features Under Development
+- Receive weather forecast updates via wttr.in API (created by @igor_chubin)
 
 ### AI Usage
-This code was developed while leveraging ChatGPT 3.5 and 4.0. Here's how I used ChatGPT to assist me in programming and debugging. Note: All code developed in conjunction with prompt engineering was reviewed and tested by me. 
-
-1. **Docker and Redis Setup:**
-   - I prepared a `docker-compose.yml` file for a Docker setup with Redis and a Python application to help id any syntax errors.
-
-2. **Python Redis Chatroom:**
-   - I shared an Python script that instantiated the initial version of the Chatbot class, its attributes and methods. 
-   - I prompted ChatGPT 3.5 to generate code snippets for subscribing and publishing to a Redis channel and handling errors.
-
-3. **Python Classes and Methods:**
-   - I prompted ChatGPT 3.5 to provide high-level information about Python classes, class attributes, and methods in the context of object-oriented programming.
-
-4. **JSON Data:**
-   - I provided a simple .JSON file and prompted ChatGPT 3.5 to correct any syntax errors according to standard JSON format. 
-
-5. **Debugging Assistance:**
-   - I prompted ChatGPT 3.5 for assistance with debugging error messages related to Redis and Python code.
-
-6. **Code Refactoring**
-   - I provided ChatGPT 4.0 with my completed app and prompted it to refactor my script. 
+This code was developed while leveraging ChatGPT to assist with refactoring and debugging. All code developed was reviewed and tested by me. 
 
 ## Contributions
 Author: Jordan Nieusma
