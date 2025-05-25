@@ -1,24 +1,30 @@
-version: '1.0'
-
 services:
   redis:
     image: redis:latest
-    container_name: my-redis
+    container_name: redis
     ports:
       - "6379:6379"
     networks:
       - app-network
 
   python-app:
-    image: python:3.11-slim
-    container_name: slim-python
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chatbot-python
     depends_on:
       - redis
     networks:
       - app-network
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    stdin_open: true        # <─ keeps STDIN open
+    tty: true               # <─ allocate a TTY
     command: tail -f /dev/null
 
 networks:
   app-network:
     driver: bridge
-
