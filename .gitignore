@@ -7,7 +7,4 @@ db.json
 .env
 .git
 ignore/*
-configs/*
-
-# data
-*.csv
+data/
