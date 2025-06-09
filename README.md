@@ -1,4 +1,4 @@
-# Redis Chat CLI
+# Gen AI Social Simulator
 
 🚧 **UNDER DEVELOPMENT** 🚧  
 
