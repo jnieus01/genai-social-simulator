@@ -1,5 +1,8 @@
-from services.channel_service import ChannelService
-from services.message_service import MessageService
-from services.user_service    import UserService
+from services.channel_manager import ChannelManager
+from services.message_processor import MessageProcessor
+from services.bot_service import BotService
+from services.ai_clients.ollama_client import OllamaClient
+from services.turn_manager import TurnManager
 
-__all__ = ["ChannelService", "MessageService", "UserService"]
+
+__all__ = ["ChannelManager", "MessageProcessor", "BotService", "OllamaClient","TurnManager"]
