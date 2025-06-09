@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: chatbot-python
+    container_name: redis-python
     depends_on:
       - redis
     networks:
@@ -21,9 +21,13 @@ services:
       - .:/app
     environment:
       - PYTHONUNBUFFERED=1
+      - APP_CONFIG=configs/app.yaml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: tail -f /dev/null
     stdin_open: true        # <─ keeps STDIN open
     tty: true               # <─ allocate a TTY
-    command: tail -f /dev/null
+    
 
 networks:
   app-network:
