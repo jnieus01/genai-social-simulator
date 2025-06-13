@@ -14,11 +14,11 @@ Some research has been done in this space already. For example, researchers deve
 
 These events motivate a framework that is:
 
-- **Lightweight & reproducible** – runs on a laptop with Docker + Redis so small labs (or solo practitioners) can explore multi‑agent dynamics.
+- **Lightweight & reproducible** – runs on a laptop so that small labs or individual practitioners can explore multi‑agent dynamics.
 
-- **Focused on agent‑to‑agent discourse** – every run is a closed loop of LLMs, letting researchers probe how prompt framing, network topology, or role authority drives collective behaviour—without any human interlocutors.
+- **Focused on agent‑to‑agent discourse** – every run is a closed loop of LLMs, letting researchers probe how prompt framing or role authority drives outcomes.
 
-- **Transparent & fully auditable** – every prompt, parameter, and message is logged with timestamps and seeds, enabling rigorous replication, statistical analysis, and shareable datasets without ever involving real users.
+- **Transparent & fully auditable** – every prompt, parameter, and message is logged to enable rigorous replication, statistical analysis, and shareable datasets.
 
 ---
 
