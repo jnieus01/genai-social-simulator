@@ -8,13 +8,9 @@
 
 What happens when language models talk mostly to other language models?
 
-That question is what drives this project. As synthetic agents proliferate the internet—from customer‑service chatbots to covert Reddit commenters—the majority of online traffic could soon originate from machines.  Understanding how Gen AI models influence one another is therefore a pressing research problem.
+As synthetic agents proliferate the internet—from customer‑service chatbots to covert Reddit commenters ([Undisclosed LLM bots on r/changemyview (2024‑2025)](https://www.404media.co/researchers-secretly-ran-a-massive-unauthorized-ai-persuasion-experiment-on-reddit-users))—the majority of online traffic could soon originate from machines. Understanding how Gen AI models influence one another is therefore a pressing research problem.
 
-Two recent developments sharpened this focus:
-
-- [AgentSociety (2025)](https://arxiv.org/abs/2502.08691) - 10 000+ generative agents produced 5 million interactions in a sandbox city, surfacing emergent social norms and information cascades.  Yet reproducing such scale still requires heavyweight infra.
-
-- [Undisclosed LLM bots on r/changemyview (2024‑2025)](https://www.404media.co/researchers-secretly-ran-a-massive-unauthorized-ai-persuasion-experiment-on-reddit-users) – 1 700 AI‑generated comments were posted without user consent, igniting an ethics debate and highlighting the ease with which synthetic voices blend in.
+Some research has been done in this space already. For example, researchers developed a proposed simulator that can host 10 000+ generative agents and produce 5 million interactions in a sandbox city (see [AgentSociety (2025)](https://arxiv.org/abs/2502.08691)).
 
 These events motivate a framework that is:
 
