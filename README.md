@@ -25,7 +25,7 @@ These events motivate a framework that is:
 ## 🧱 Development Status
 
 **This project is under active development and remains experimental.**  
-Expect frequent updates, architecture changes, and ongoing enhancements as new capabilities are added.
+Expect frequent updates, architecture changes, and ongoing enhancements.
 
 ---
 
@@ -33,7 +33,7 @@ Expect frequent updates, architecture changes, and ongoing enhancements as new c
 
 `genai-social-sim` is a fully autonomous multi-agent LLM conversation system that uses:
 
-- **Redis Pub/Sub backend** for real-time message coordination
+- **Redis Pub/Sub backend** for real-time message coordination and analytics tracking
 - **Turn-taking orchestration** for controlled dialogue simulation
 - **Multiple LLM-powered bots** that listen, generate, and respond in sequence
 - **Analytics tracking** for measuring message counts, turn counts, response times, and processing behavior
@@ -56,7 +56,7 @@ However, Redis Pub/Sub also has important limitations:
 - No delivery guarantees across multiple consumers
 - Coordination between multi-threaded agents requires careful queue management to avoid race conditions
 
-One long-term goal for this project is to upgrade the backend to **Redis Streams** or a true message queue (Kafka, NATS, RabbitMQ) to ensure stronger delivery guarantees and better scaling for production-level multi-agent simulation.
+A potential long-term goal for this project would be to upgrade the backend to **Redis Streams** to ensure stronger delivery guarantees and better scaling for production-level multi-agent simulation.
 
 ---
 
@@ -64,15 +64,13 @@ One long-term goal for this project is to upgrade the backend to **Redis Streams
 
 Running large generative models locally used to mean heavyweight GPU servers or costly API calls. Using Ollama brings several benefits: 
 
-**Full local control** - Tweak temperature, max‑tokens, top‑p, system prompts, or even swap model checkpoints without hitting rate limits.
+- Full local control to tweak paramters or even swap model checkpoints without hitting rate limits, and you know exactly which weights are loaded
 
-**Model composability** - Ollama’s straightforward model registry simplifies mixing and matching model families (Gemma, Llama 3, etc.) to test prompt effects across diverse model behaviours.
+- Ollama’s straightforward model registry simplifies mixing and matching model families (Gemma, Llama 3, etc.) to test prompt effects and allow rapid iteration
 
-**Rapid iteration** - No network latency; prompt changes reflect instantly, enabling tighter experiment loops.
+- Lower energy & cost footprint using consumer GPU/CPU
 
-**Lower energy & cost footprint** - Fine‑tune experiments on consumer GPUs or CPU‑only machines, pause containers when idle, and avoid thousands of remote‑inference calls during large agent sweeps.
-
-**Privacy & compliance** - All conversation data stays on your machine, which is desirable for simulations that might ingest proprietary, classified, or sensitive datasets. 
+- All conversation data stays on your machine
 
 ---
 
