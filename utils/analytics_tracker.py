@@ -1,5 +1,6 @@
 import time
 
+
 class AnalyticsTracker:
     def __init__(self, redis_client, bot_name):
         self.client = redis_client

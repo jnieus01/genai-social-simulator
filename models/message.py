@@ -4,6 +4,7 @@ from datetime import datetime
 import json
 from typing import Any, Dict
 
+
 @dataclass(slots=True, frozen=True)
 class Message:
     sender: str
@@ -11,11 +12,13 @@ class Message:
     timestamp: datetime = field(default_factory=datetime.utcnow)
 
     def to_json(self):
-        return json.dumps({
-            "from": self.sender,
-            "message": self.body, 
-            "timestamp": self.timestamp.isoformat()
-        })
+        return json.dumps(
+            {
+                "from": self.sender,
+                "message": self.body,
+                "timestamp": self.timestamp.isoformat(),
+            }
+        )
 
     @classmethod
     def from_json(cls, json_str: str) -> "Message":
@@ -31,4 +34,8 @@ class Message:
                 raise ValueError(f"Missing '{key}' in message hash")
             return v.decode() if isinstance(v, (bytes, bytearray)) else v
 
-        return cls(sender=data["from"], body=data["message"], timestamp=datetime.fromisoformat(data["timestamp"]))
+        return cls(
+            sender=data["from"],
+            body=data["message"],
+            timestamp=datetime.fromisoformat(data["timestamp"]),
+        )

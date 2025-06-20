@@ -9,5 +9,5 @@ __all__ = [
     "get_logger",
     "colorize",
     "channel_observer",
-    "seed_conversation"
+    "seed_conversation",
 ]

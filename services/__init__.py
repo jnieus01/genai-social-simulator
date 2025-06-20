@@ -5,4 +5,10 @@ from services.ai_clients.ollama_client import OllamaClient
 from services.turn_manager import TurnManager
 
 
-__all__ = ["ChannelManager", "MessageProcessor", "BotService", "OllamaClient","TurnManager"]
+__all__ = [
+    "ChannelManager",
+    "MessageProcessor",
+    "BotService",
+    "OllamaClient",
+    "TurnManager",
+]

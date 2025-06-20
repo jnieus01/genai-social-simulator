@@ -1,5 +1,6 @@
 import json
 
+
 class MessageProcessor:
     @staticmethod
     def parse(raw_message):

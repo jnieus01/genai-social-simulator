@@ -10,6 +10,7 @@ sys.path.insert(1, os.getcwd())
 from config_loader import ConfigLoader
 from config import AppConfig
 
+
 def export_channel_history(client, channels, output_file):
     print(f"Exporting chat history to {output_file}...")
 
@@ -24,13 +25,16 @@ def export_channel_history(client, channels, output_file):
 
             for raw_message in messages:
                 payload = json.loads(raw_message)
-                writer.writerow({
-                    "channel": channel,
-                    "sender": payload.get("from", ""),
-                    "message": payload.get("message", "")
-                })
+                writer.writerow(
+                    {
+                        "channel": channel,
+                        "sender": payload.get("from", ""),
+                        "message": payload.get("message", ""),
+                    }
+                )
 
     print("Chat history export complete.")
+
 
 def export_analytics(client, output_file="analytics_export.csv"):
     print("Scanning analytics keys in Redis...")
@@ -60,12 +64,13 @@ def export_analytics(client, output_file="analytics_export.csv"):
 
     with open(output_file, "w", newline="") as csvfile:
         fieldnames = [
-            "Bot", "Channel", 
-            "Generations", 
-            "Turns", 
-            "MessagesReceived", 
-            "MessagesIgnored", 
-            "AvgProcessingTime"
+            "Bot",
+            "Channel",
+            "Generations",
+            "Turns",
+            "MessagesReceived",
+            "MessagesIgnored",
+            "AvgProcessingTime",
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
@@ -74,21 +79,26 @@ def export_analytics(client, output_file="analytics_export.csv"):
             bot, channel = bot_key.split(":")
 
             avg_time = (
-                sum(data.get("processing_time", [])) / len(data.get("processing_time", []))
-                if data.get("processing_time") else 0.0
+                sum(data.get("processing_time", []))
+                / len(data.get("processing_time", []))
+                if data.get("processing_time")
+                else 0.0
             )
 
-            writer.writerow({
-                "Bot": bot,
-                "Channel": channel,
-                "Generations": data.get("generations", 0),
-                "Turns": data.get("turns", 0),
-                "MessagesReceived": data.get("received", 0),
-                "MessagesIgnored": data.get("ignored", 0),
-                "AvgProcessingTime": round(avg_time, 3),
-            })
+            writer.writerow(
+                {
+                    "Bot": bot,
+                    "Channel": channel,
+                    "Generations": data.get("generations", 0),
+                    "Turns": data.get("turns", 0),
+                    "MessagesReceived": data.get("received", 0),
+                    "MessagesIgnored": data.get("ignored", 0),
+                    "AvgProcessingTime": round(avg_time, 3),
+                }
+            )
 
     print("Analytics export complete.")
+
 
 if __name__ == "__main__":
     # Load config
@@ -96,9 +106,7 @@ if __name__ == "__main__":
     config = AppConfig(config_data)
 
     client = redis.StrictRedis(
-        host=config.redis_host,
-        port=config.redis_port,
-        decode_responses=True
+        host=config.redis_host, port=config.redis_port, decode_responses=True
     )
 
     # Collect channels

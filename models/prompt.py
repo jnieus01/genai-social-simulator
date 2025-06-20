@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 
+
 @dataclass(frozen=True, slots=True)
 class Prompt:
     prompt: str  # Instructions for the model to stay in character or follow a specific style

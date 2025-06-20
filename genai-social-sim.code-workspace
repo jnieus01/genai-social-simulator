@@ -1,0 +1,28 @@
+{
+	"folders": [
+    {
+      "path": "."
+    }
+  ],
+	
+	"settings": {
+    // ensure conda env is auto-activated & pip/python come from it
+    "terminal.integrated.env.osx": {
+      "PATH": "${env:HOME}/anaconda3/envs/genai-sim/bin:${env:PATH}"
+    },
+    "python.defaultInterpreterPath": "${env:HOME}/anaconda3/envs/genai-sim/bin/python",
+
+    // define custom terminal profiles
+    "terminal.integrated.profiles.osx": {
+      "genai-sim": {
+        "path": "zsh",
+        "args": ["-l"],
+        "color": "terminal.ansiCyan",
+        "icon":"robot",
+        "overrideName": true
+      },
+    },
+    // make the default when hit ⌃` for a new terminal
+    "terminal.integrated.defaultProfile.osx": "genai-sim"
+  },
+}
