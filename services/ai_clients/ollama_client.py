@@ -15,7 +15,7 @@ class OllamaClient(AIClient):
             **self._generation_config
         }
         try:
-            resp = requests.post(url, json=payload, timeout=30)
+            resp = requests.post(url, json=payload, timeout=60)
             resp.raise_for_status()
             data = resp.json()
             return data["choices"][0]["message"]["content"]

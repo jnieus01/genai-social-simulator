@@ -10,3 +10,4 @@ class AppConfig:
             for ch, cfg in data.get("channel_turns", {}).items()
         }
         self.prompt_prefix = data.get("cli", {}).get("prompt_prefix", "\n> ") # TODO 
+        self.prompts = data.get("prompts", {})

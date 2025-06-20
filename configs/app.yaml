@@ -29,3 +29,11 @@ channel_turns:
 
 cli:
   prompt_prefix: "\n> "
+
+message:
+  from: "system"
+  body: "Discuss current issues surrounding rare earth metals."
+
+prompts:
+  BOT1: Respond to the most recent message while keeping your responses concise and focused.
+  BOT2: Respond to the most recent message while keeping your responses concise and focused.

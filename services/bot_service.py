@@ -62,8 +62,15 @@ class BotService:
             if not self._turn_manager.is_my_turn(channel, self._username):
                 self._log.info(f"Not {self._username}'s turn on channel '{channel}'")
                 continue
+            
+            
+            user_prompt = f"{sender} said: {text}"
+            system_prompt = self._turn_manager.get_prompt(self._username)
+            prompt = user_prompt + "\n" + system_prompt.prompt
+            # print("[USER PROMPT]: ", user_prompt)
+            # print("[SYSTEM PROMPT]: ", system_prompt)
+            print("[FINAL PROMPT]: ", prompt)
 
-            prompt = f"{sender} said: {text}"
             self._log.info("Generating response...")
 
             start = time.time()
