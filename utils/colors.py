@@ -6,11 +6,8 @@ MAGENTA = "\033[95m"
 CYAN = "\033[96m"
 RED = "\033[91m"
 
-BOT_COLORS = {
-    "BOT1": BLUE,
-    "BOT2": GREEN,
-    "system": MAGENTA
-}
+BOT_COLORS = {"BOT1": BLUE, "BOT2": GREEN, "system": MAGENTA}
+
 
 def colorize(bot_name, text):
     color = BOT_COLORS.get(bot_name, CYAN)

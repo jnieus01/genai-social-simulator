@@ -2,4 +2,10 @@ channel: "general"
 
 message:
   from: "system"
-  body: "Discuss current issues surrounding rare earth metals. Keep your messages concise and focused."
+  body: "Discuss current issues surrounding rare earth metals."
+
+prompts:
+  BOT1: >
+      Keep your messages concise and focused.
+  BOT2: >
+      Keep your messages concise and focused.

@@ -1,9 +1,26 @@
 import random
+import yaml
+from models.prompt import Prompt
+import os
+import sys
+
+sys.path.insert(1, os.getcwd())
+from config_loader import ConfigLoader
+from config import AppConfig
+
 
 class TurnManager:
-    def __init__(self, redis_client, bots):
+    def __init__(self, redis_client, bots, config_path: str = "configs/app.yaml"):
         self._client = redis_client
         self._bots = bots
+        # Load configs
+        config_data = ConfigLoader.load_from_env()
+        config = AppConfig(config_data)
+
+        self._prompts = {
+            name: Prompt(prompt=prompt_text)
+            for name, prompt_text in config.prompts.items()
+        }
 
     def initialize_turn(self, channel, config_first_bot):
         key = f"turn:{channel}"
@@ -32,3 +49,6 @@ class TurnManager:
         idx = self._bots.index(current_bot)
         next_idx = (idx + 1) % len(self._bots)
         return self._bots[next_idx]
+
+    def get_prompt(self, bot_name: str) -> Prompt:
+        return self._prompts.get(bot_name, Prompt(prompt=""))

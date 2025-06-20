@@ -1,6 +1,7 @@
 import requests
 from services.ai_clients.ai_client import AIClient
 
+
 class OllamaClient(AIClient):
     def __init__(self, base_url, model, generation_config: dict = None):
         self._base_url = base_url.rstrip("/")
@@ -12,14 +13,14 @@ class OllamaClient(AIClient):
         payload = {
             "model": self._model,
             "messages": [{"role": "user", "content": prompt}],
-            **self._generation_config
+            **self._generation_config,
         }
         try:
-            resp = requests.post(url, json=payload, timeout=30)
+            resp = requests.post(url, json=payload, timeout=60)
             resp.raise_for_status()
             data = resp.json()
             return data["choices"][0]["message"]["content"]
-        
+
         except requests.exceptions.RequestException as e:
             print(f"[OllamaClient] Error: {e}")
             return None

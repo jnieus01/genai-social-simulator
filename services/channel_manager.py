@@ -1,5 +1,6 @@
 import json
 
+
 class ChannelManager:
     def __init__(self, redis_client, username, default_channels):
         self._client = redis_client
@@ -17,7 +18,9 @@ class ChannelManager:
                 self._client.sadd("channels", ch)
         else:
             existing = self._client.smembers("channels")
-            decoded_existing = {ch.decode() if isinstance(ch, bytes) else ch for ch in existing}
+            decoded_existing = {
+                ch.decode() if isinstance(ch, bytes) else ch for ch in existing
+            }
             for ch in self._default_channels:
                 if ch not in decoded_existing:
                     self._client.sadd("channels", ch)
@@ -37,7 +40,7 @@ class ChannelManager:
     def publish(self, channel, message):
         self._client.publish(channel, message)
         self._client.rpush(f"history:{channel}", message)
-    
+
     def unsubscribe_from(self, channel):
         self._client.srem(self._channels_key, channel)
         self._pubsub.unsubscribe(channel)

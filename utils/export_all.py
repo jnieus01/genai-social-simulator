@@ -1,5 +1,7 @@
 import redis
 import csv
+import json
+import datetime
 import os
 import sys
 
@@ -9,19 +11,35 @@ from config_loader import ConfigLoader
 from config import AppConfig
 
 
-def export_analytics(output_file="analytics_export.csv"):
-    config_data = ConfigLoader.load_from_env()
-    config = AppConfig(config_data)
+def export_channel_history(client, channels, output_file):
+    print(f"Exporting chat history to {output_file}...")
 
-    client = redis.StrictRedis(
-        host=config.redis_host, port=config.redis_port, decode_responses=True
-    )
+    with open(output_file, "w", newline="") as csvfile:
+        fieldnames = ["channel", "sender", "message"]
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
 
+        for channel in channels:
+            history_key = f"history:{channel}"
+            messages = client.lrange(history_key, 0, -1)
+
+            for raw_message in messages:
+                payload = json.loads(raw_message)
+                writer.writerow(
+                    {
+                        "channel": channel,
+                        "sender": payload.get("from", ""),
+                        "message": payload.get("message", ""),
+                    }
+                )
+
+    print("Chat history export complete.")
+
+
+def export_analytics(client, output_file="analytics_export.csv"):
     print("Scanning analytics keys in Redis...")
 
-    # Get all analytics keys
     keys = client.keys("analytics:*")
-
     metrics = {}
 
     for key in keys:
@@ -36,16 +54,13 @@ def export_analytics(output_file="analytics_export.csv"):
             metrics[bot_key] = {}
 
         if metric == "processing_time":
-            # list of durations
-            durations = client.lrange(key, 0, -1)
-            durations = [float(x) for x in durations]
+            durations = [float(x) for x in client.lrange(key, 0, -1)]
             metrics[bot_key][metric] = durations
         else:
             count = int(client.get(key))
             metrics[bot_key][metric] = count
 
-    # Write CSV
-    print(f"Exporting to {output_file}...")
+    print(f"Exporting analytics to {output_file}...")
 
     with open(output_file, "w", newline="") as csvfile:
         fieldnames = [
@@ -57,7 +72,6 @@ def export_analytics(output_file="analytics_export.csv"):
             "MessagesIgnored",
             "AvgProcessingTime",
         ]
-
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
 
@@ -83,8 +97,28 @@ def export_analytics(output_file="analytics_export.csv"):
                 }
             )
 
-    print("Export complete!")
+    print("Analytics export complete.")
 
 
 if __name__ == "__main__":
-    export_analytics()
+    # Load config
+    config_data = ConfigLoader.load_from_env()
+    config = AppConfig(config_data)
+
+    client = redis.StrictRedis(
+        host=config.redis_host, port=config.redis_port, decode_responses=True
+    )
+
+    # Collect channels
+    channels = client.smembers("channels")
+    channels = [ch.decode() if isinstance(ch, bytes) else ch for ch in channels]
+
+    # Create timestamped filenames
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    chat_output = f"chat_export_{timestamp}.csv"
+    analytics_output = f"analytics_export_{timestamp}.csv"
+
+    export_channel_history(client, channels, chat_output)
+    export_analytics(client, analytics_output)
+
+    print("Export complete!")

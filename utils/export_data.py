@@ -4,9 +4,11 @@ import json
 import datetime
 import os
 import sys
+
 sys.path.insert(1, os.getcwd())
 from config_loader import ConfigLoader
 from config import AppConfig
+
 
 def export_channel_history(client, channel, csv_writer):
     history_key = f"history:{channel}"
@@ -16,18 +18,17 @@ def export_channel_history(client, channel, csv_writer):
         payload = json.loads(raw_message)
         sender = payload.get("from", "")
         text = payload.get("message", "")
-        csv_writer.writerow({
-            "channel": channel,
-            "sender": sender,
-            "message": text
-        })
+        csv_writer.writerow({"channel": channel, "sender": sender, "message": text})
+
 
 if __name__ == "__main__":
     # Load configs
     config_data = ConfigLoader.load_from_env()
     config = AppConfig(config_data)
 
-    client = redis.StrictRedis(host=config.redis_host, port=config.redis_port, decode_responses=True)
+    client = redis.StrictRedis(
+        host=config.redis_host, port=config.redis_port, decode_responses=True
+    )
 
     channels = client.smembers("channels")
     channels = [ch.decode() if isinstance(ch, bytes) else ch for ch in channels]

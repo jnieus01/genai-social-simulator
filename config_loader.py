@@ -1,6 +1,7 @@
 import os
 import yaml
 
+
 class ConfigLoader:
     @staticmethod
     def load_from_env() -> dict:
